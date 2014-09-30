@@ -76,19 +76,6 @@ define([
 
 		/**
 		 * @inheritdoc
-		 * @localdoc Registers event handlers declared HUB specials
-		 * @handler
-		 */
-		"sig/initialize" : function onInitialize() {
-			var me = this;
-
-			return when.map(me.constructor.specials[HUB] || ARRAY_PROTO, function (special) {
-				return me.subscribe(special[ARGS][0], special[VALUE]);
-			});
-		},
-
-		/**
-		 * @inheritdoc
 		 * @localdoc Triggers memorized values on HUB specials
 		 * @handler
 		 */
@@ -104,6 +91,10 @@ define([
 					var result;
 					var topic = special[ARGS][0];
 
+					// make hub subscription
+					me.subscribe(topic, special[VALUE]);
+
+					// figure out what to re-emit if it's memory hub
 					if (special[ARGS][1] === true && (memory = me.peek(topic, empty)) !== empty) {
 						// Redefine result
 						result = {};
