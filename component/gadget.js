@@ -150,7 +150,8 @@ define([
 		 * @handler
 		 */
 		"sig/task" : function onTask(task) {
-			return this.publish("task", task);
+			this.publish("task", task);
+			return false;
 		},
 
 		/**

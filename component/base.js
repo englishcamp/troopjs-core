@@ -82,6 +82,7 @@ define([
 	var FINISHED = "finished";
 	var SIG = "sig";
 	var SIG_SETUP = SIG + "/setup";
+	var SIG_TASK = SIG + "/task";
 	var SIG_ADD = SIG + "/add";
 	var SIG_REMOVE = SIG + "/remove";
 	var SIG_TEARDOWN = SIG + "/teardown";
@@ -588,8 +589,12 @@ define([
 			task[NAME] = name || TASK;
 			task[PROMISE] = promise;
 
-			// make sure the promise survives as a regular argument, rather than
-			return me.signal(TASK, task).yield(promise);
+			// run "task" signal handlers in a synchronous, cancellable manner.
+			var event = {};
+			event[RUNNER] = sequence;
+			event[TYPE] = SIG_TASK;
+			me.emit(event, task);
+			return promise;
 		}
 	});
 });
