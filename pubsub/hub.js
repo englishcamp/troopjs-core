@@ -125,6 +125,18 @@ define([
 			return (handlers = this[HANDLERS][type]) === UNDEFINED || !(MEMORY in handlers)
 				? value
 				: handlers[MEMORY];
+		},
+
+		/**
+		 * Clean handlers MEMORY value of a specific event type
+		 * @param {String} type event type to peek at
+		 * @return
+		 */
+		"forget" : function cleanValue(type) {
+			var handlers = this[HANDLERS][type];
+			if (handlers && (MEMORY in handlers)) {
+				delete handlers[MEMORY];
+			}
 		}
 	});
 });
